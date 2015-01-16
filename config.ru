@@ -2,7 +2,8 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'resque/server'
-require 'resque_scheduler'
+require 'resque-scheduler'
+require 'resque/scheduler/server'
 require 'resque/status_server'
 require 'json'
 
@@ -18,15 +19,6 @@ redis_config = redis_config[ config['resque']['environment'] ] if config['resque
 # Setup resque
 Resque.redis = redis_config
 Resque.redis.namespace = config['resque']['namespace'] if config['resque']['namespace']
-
-if config['scheduler']
-  # Load scheduler config
-  schedule_config = YAML.load_file( config['scheduler']['config_path'] )
-  schedule_config = redis_config[ config['scheduler']['env_key'] ] if config['scheduler']['env_key']
-
-  # Setup the scheduler
-  Resque.schedule = schedule_config
-end
 
 # If a password is provided, setup basic auth
 if config['password']
