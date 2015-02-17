@@ -12,7 +12,7 @@ require 'yaml'
 require 'dotenv'
 Dotenv.load
 
-ENV['REDIS_URL']||='localhost:6379'
+ENV['REDIS_URL']||='redis://localhost:6379'
 
 # Setup resque
 Resque.redis = ENV['REDIS_URL']
