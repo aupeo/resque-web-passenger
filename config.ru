@@ -5,6 +5,8 @@ require 'resque/server'
 require 'resque-scheduler'
 require 'resque/scheduler/server'
 require 'resque/status_server'
+require 'resque-cleaner'
+
 require 'json'
 
 require 'yaml'
@@ -24,6 +26,10 @@ if ENV['RESQUE_PWD']
   Resque::Server.use Rack::Auth::Basic do |username, password|
     password == ENV['RESQUE_PWD']
   end
+end
+
+module Resque::Plugins
+  ResqueCleaner::Limiter.default_maximum = 10_000
 end
 
 use Rack::ShowExceptions
