@@ -33,6 +33,7 @@ module Resque::Plugins
 end
 
 use Rack::ShowExceptions
+use Rack::MethodOverride
 
 run Rack::URLMap.new \
   "/resque" => Resque::Server.new
